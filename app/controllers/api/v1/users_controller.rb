@@ -6,6 +6,21 @@ module Api
     class UsersController < Api::V1::ApplicationController
       skip_before_action :authenticate, only: %i[login create]
 
+      # def login
+      #   result = nil
+      #   user = User.find_by(email: params[:email]).try(:authenticate, params[:password])
+      #   result = OpenStruct.new({ success?: false, payload: nil, errors: convert_to_custom_error('User not found') }) if user.nil?
+      #    result = OpenStruct.new({ success?: false, payload: nil, errors: convert_to_custom_error('Incorrect password') }) unless user && result
+      #   token = user.generate_token!(@ip)
+      #   result = OpenStruct.new({ success?: true, payload: { user: user, token: token }, errors: convert_to_custom_error(nil) }) if result == nil
+      #   render_error(errors: 'User not authenticated', status: 401) and return unless result.success?
+      #   payload = {
+      #     user: UserBlueprint.render_as_hash(result.payload[:user], view: :login),
+      #     token: TokenBlueprint.render_as_hash(result.payload[:token])
+      #   }
+      #   render_success(payload: payload)
+      # end
+
       def login
         result = BaseApi::Auth.login(params[:email], params[:password], @ip)
         render_error(errors: 'User not authenticated', status: 401) and return unless result.success?
