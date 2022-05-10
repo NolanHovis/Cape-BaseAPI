@@ -33,7 +33,7 @@ module Api
 
        private 
        def book_params
-        require(:book).permit(:title, :author, :genre, :coverImagePath)
+          params.require(:book).permit(:title, :author, :genre, :coverImagePath)
        end
     end
   end
